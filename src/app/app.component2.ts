@@ -8,20 +8,20 @@ export class Phone {
 }
 
 @Component({
-    selector: 'my-app',
+    selector: 'my-app2',
     template: `
         <div>
             <div class="form-group">
                 <label>Model title</label>
-                <input class="form-control" name="title" [(ngModel)]="title" />
+                <input class="form-control" name="title" [(ngModel)]="phone.title" />
             </div>
             <div class="form-group">
                 <label>Price</label>
-                <input type="number" class="form-control" name="price" [(ngModel)]="price" />
+                <input type="number" class="form-control" name="price" [(ngModel)]="phone.price" />
             </div>
             <div class="form-group">
                 <label>Brand</label>
-                <select class="form-control" name="company" [(ngModel)]="company">
+                <select class="form-control" name="company" [(ngModel)]="phone.company">
                     <option  *ngFor="let comp of companies" [value]="comp">
                         {{comp}}
                     </option>
@@ -40,16 +40,13 @@ export class Phone {
     `
 })
 
-export class AppComponent {
+export class AppComponent2 {
 
-    title: string;
-    price: number;
-    company: string;
-
+    phone: Phone = new Phone("", 0, "Huawei");
     phones: Phone[] = [];
     companies: string[] = ["Apple", "Huawei", "Xiaomi", "Samsung", "LG", "Motorola", "Alcatel"];
 
-    addPhone(){
-        this.phones.push(new Phone(this.title, this.price, this.company));
+    addPhone() {
+        this.phones.push(new Phone(this.phone.title, this.phone.price, this.phone.company));
     }
 }
