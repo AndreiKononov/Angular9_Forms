@@ -49,7 +49,7 @@ export class AppComponent {
     phones: Phone[] = [];
     companies: string[] = ["Apple", "Huawei", "Xiaomi", "Samsung", "LG", "Motorola", "Alcatel"];
 
-    addPhone(){
+    addPhone() { // this method adds a new object of class Phone
         this.phones.push(new Phone(this.title, this.price, this.company));
     }
 }

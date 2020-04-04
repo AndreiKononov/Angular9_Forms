@@ -41,12 +41,12 @@ export class Phone {
 })
 
 export class AppComponent2 {
-
+    // this model encapsulates values of input form
     phone: Phone = new Phone("", 0, "Huawei");
     phones: Phone[] = [];
     companies: string[] = ["Apple", "Huawei", "Xiaomi", "Samsung", "LG", "Motorola", "Alcatel"];
 
-    addPhone() {
+    addPhone() { // before adding will be created a separate object which is initialized values from "phone" variable
         this.phones.push(new Phone(this.phone.title, this.phone.price, this.phone.company));
     }
 }
