@@ -1,72 +1,61 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
+import { NgModel } from '@angular/forms';
 
-class Item {
-    purchase: string;
-    done: boolean;
-    price: number;
-
-    constructor(purchase: string, price: number) {
-        this.purchase = purchase;
-        this.price = price;
-        this.done = false;
-    }
+export class Phone {
+    constructor(public title: string,
+                public price: number,
+                public company: string)
+    { }
 }
 
 @Component({
-    selector: 'purchase-app',
-    template: `<div class="page-header">
-        <h1> List of Purchases </h1>
-    </div>
-    <div class="panel">
-        <div class="form-inline">
+    selector: 'my-app',
+    template: `
+        <div class="col-xs-10">
             <div class="form-group">
-                <div class="col-md-8">
-                    <input class="form-control" [(ngModel)]="text" placeholder = "Title" />
-                </div>
+                <label>Model title</label>
+<!--                <input class="form-control" name="title" [(ngModel)]="phone.title" #phoneTitle="ngModel" />-->
+                <input class="form-control" name="title" [(ngModel)]="phone.title" #phoneTitle="ngModel" (change)="onTitleChange()" />
             </div>
             <div class="form-group">
-                <div class="col-md-6">
-                    <input type="number" class="form-control" [(ngModel)]="price" placeholder="Price" />
-                </div>
+                <label>Price</label>
+                <input type="number" class="form-control" name="price" [(ngModel)]="phone.price" #phonePrice="ngModel" />
             </div>
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-8">
-                    <button class="btn btn-default" (click)="addItem(text, price)">Add</button>
-                </div>
+                <label>Brand</label>
+                <select class="form-control" name="company" [(ngModel)]="phone.company" #phoneCompany="ngModel">
+                    <option  *ngFor="let comp of companies" [value]="comp">
+                        {{comp}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" (click)="addPhone(phoneTitle, phonePrice, phoneCompany)">
+                    Add
+                </button>
+            </div>
+            <div>
+                <p>{{phoneTitle.name}} : {{phoneTitle.model}}</p>
+                <p>{{phonePrice.name}} : {{phonePrice.model}}</p>
+                <p>{{phoneCompany.name}} : {{phoneCompany.model}}</p>
             </div>
         </div>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Purchased</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let item of items">
-                <td>{{item.purchase}}</td>
-                <td>{{item.price}}</td>
-                <td><input type="checkbox" [(ngModel)]="item.done" /></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>`
+    `
 })
 
 export class AppComponent {
-    text: string;
-    price: number = 0;
-    items: Item[] = [
-        { purchase: "Bread", done: false, price: 15.9 },
-        { purchase: "Oil", done: false, price: 60 },
-        { purchase: "Potatoes", done: true, price: 22.6 },
-        { purchase: "Cheese", done: false, price: 310 },
-    ];
 
-    addItem(text: string, price: number): void {
-        if (text == null || text.trim() == '' || price == null)
-            return;
-        this.items.push(new Item(text, price));
+    phone: Phone = new Phone("", 0, "");
+    companies: string[] = ["Apple", "Huawei", "Xiaomi", "Samsung", "LG", "Motorola", "Alcatel"];
+
+    addPhone(title: NgModel, price: NgModel, comp: NgModel) {
+        console.log(title);
+        console.log(price);
+        console.log(comp);
+    }
+
+    onTitleChange() {
+        if (this.phone.title=="no")
+            this.phone.title = "undefined";
     }
 }
