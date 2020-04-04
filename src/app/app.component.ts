@@ -15,7 +15,8 @@ export class Phone {
             <div class="form-group">
                 <label>Model title</label>
 <!--                <input class="form-control" name="title" [(ngModel)]="phone.title" #phoneTitle="ngModel" />-->
-                <input class="form-control" name="title" [(ngModel)]="phone.title" #phoneTitle="ngModel" (change)="onTitleChange()" />
+<!--                <input class="form-control" name="title" [(ngModel)]="phone.title" #phoneTitle="ngModel" (change)="onTitleChange()" />-->
+                <input class="form-control" name="title" [(ngModel)]="phone.title" #phoneTitle="ngModel" (ngModelChange)="onTitleChange()" />
             </div>
             <div class="form-group">
                 <label>Price</label>
