@@ -54,9 +54,9 @@ export class AppComponent {
     }
 
     // a custom validator
-    userNameValidator(control: FormControl): {[s:string]: boolean}{
+    userNameValidator(control: FormControl): {[s: string]: boolean}{
 
-        if (control.value === "noname"){
+        if (control.value === "noname") {
             return {"userName": true};
         }
         return null;
