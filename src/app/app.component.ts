@@ -43,7 +43,7 @@ export class AppComponent {
 
     constructor() {
         this.myForm = new FormGroup({
-            "userName": new FormControl("Tom", Validators.required),
+            "userName": new FormControl("Tom", [Validators.required, this.userNameValidator]),
             "userEmail": new FormControl("", [ Validators.required, Validators.email ]),
             "userPhone": new FormControl("", Validators.pattern("[0-9]{10}")),
         });
@@ -51,5 +51,14 @@ export class AppComponent {
 
     submit() {
         console.log(this.myForm);
+    }
+
+    // a custom validator
+    userNameValidator(control: FormControl): {[s:string]: boolean}{
+
+        if (control.value === "noname"){
+            return {"userName": true};
+        }
+        return null;
     }
 }
