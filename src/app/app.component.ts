@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'my-app',
@@ -23,14 +23,14 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
                     Incorrect email
                 </div>
             </div>
-            <div class="form-group">
-                <label>Телефон</label>
-                <input class="form-control" name="phone" formControlName="userPhone" />
-                <div class="alert alert-danger" *ngIf="myForm.controls['userPhone'].invalid && myForm.controls['userPhone'].touched">
-                    Incorrect phone number
+            <div formArrayName="phones">
+                <div class="form-group" *ngFor="let phone of myForm.controls['phones']['controls']; let i = index">
+                    <label>Phone</label>
+                    <input class="form-control" formControlName="{{i}}" />
                 </div>
             </div>
             <div class="form-group">
+                <button class="btn btn-default" (click)="addPhone()">Add phone</button>
                 <button class="btn btn-default" [disabled]="myForm.invalid">Submit</button>
             </div>
         </form>
@@ -41,24 +41,20 @@ export class AppComponent {
 
     myForm : FormGroup;
 
-    constructor() {
-        this.myForm = new FormGroup({
-            "userName": new FormControl("Tom", [Validators.required, this.userNameValidator]),
-            "userEmail": new FormControl("", [ Validators.required, Validators.email ]),
-            "userPhone": new FormControl("", Validators.pattern("[0-9]{10}")),
+    constructor(private formBuilder: FormBuilder) {
+
+        this.myForm = formBuilder.group({
+
+            "userName": ["Tom", [Validators.required]],
+            "userEmail": ["", [ Validators.required, Validators.email]],
+            "phones": formBuilder.array([ ["+7", Validators.required]]),
         });
+    }
+    addPhone() {
+        (<FormArray>this.myForm.controls["phones"]).push(new FormControl("+7", Validators.required));
     }
 
     submit() {
         console.log(this.myForm);
-    }
-
-    // a custom validator
-    userNameValidator(control: FormControl): {[s: string]: boolean}{
-
-        if (control.value === "noname") {
-            return {"userName": true};
-        }
-        return null;
     }
 }
